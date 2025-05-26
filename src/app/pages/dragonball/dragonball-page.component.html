@@ -1,0 +1,49 @@
+<h1>Dragonball</h1>
+<hr/>
+
+<section class="row">
+  <div class="col-12 col-sm-6">
+    <h3>Agregar: {{name()}}</h3>
+    <input
+      #nameInput
+      (change)="name.set(nameInput.value)"
+      (input)="name.set(nameInput.value)"
+      [value]="name()"
+      class="form-control"
+      placeholder="Nombre"
+      type="text"
+    />
+    <h3>{{power()}}</h3>
+    <input
+      #powerInput
+      (change)="power.set(Number(powerInput.value))"
+      (input)="power.set(Number(powerInput.value))"
+      [value]="power()"
+      type="number"
+      name="nombre"
+      id="power"
+      placeholder="Poder"
+      class="form-control"
+    />
+    <button class="mt-2 btn btn-primary">
+      Agregar: {{ name() }}
+    </button>
+  </div>
+
+  <div class="col-12 col-sm-6">
+    <h3>Listado</h3>
+    <ul>
+      @for (character of characters(); track character.id; let i = $index) {
+
+        @if (character.power >= 2000) {
+
+          <li>
+            <span>{{ i + 1 }} - {{ character.name }} </span>
+            <strong [class.text-danger]="character.power>8000">({{ character.power }})</strong>
+          </li>
+
+        }
+      }
+    </ul>
+  </div>
+</section>
