@@ -1,7 +1,8 @@
-import {Component, signal, WritableSignal} from '@angular/core';
+import {Component, inject, WritableSignal} from '@angular/core';
 import {CharacterListComponent} from '../../components/dragonball/character-list/character-list.component';
-import {Character} from '../../interface/character.interface';
 import {CharacterAddComponent} from '../../components/dragonball/character-add/character-add.component';
+import {DragonBallService} from '../../service/dragonball.service';
+import {Character} from '../../interface/character.interface';
 
 
 @Component({
@@ -15,13 +16,21 @@ import {CharacterAddComponent} from '../../components/dragonball/character-add/c
 })
 export class DragonballSuperPageComponent {
 
-  characters: WritableSignal<Character[]> = signal<Character[]>([
-    {id: 1, name: 'Goku', power: 9000},
-    {id: 2, name: 'Vegeta', power: 8500},
-  ]);
 
-  addCharacter(character: Character):void {
-    this.characters.update((actual)=> [...actual, character]);
+  /*//manera traditional para HACER DI
+  constructor(private dataService:DragonBallService) {
+  }*/
+
+  //nueva manera de hacer DI en angular
+  private dataService: DragonBallService = inject(DragonBallService);
+
+  addCharacter(character: Character): void {
+
+    this.dataService.addCharacter(character)
+
   }
 
+  obtainCharacters(): WritableSignal<Character[]> {
+    return this.dataService.characters;
+  }
 }
